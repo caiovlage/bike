@@ -10,8 +10,8 @@ public class LocationPointsService {
     public static LatLng[] getPlaces() {
 
         LatLng[] localizacoesList;
-        try {
-
+        try
+        {
             LocationJson jsonParser = new LocationJson();
             JSONObject response = jsonParser.makeHttpRequest("http://www.gruposolarbrasil.com.br/json/localizacoes","GET",null);
             JSONArray localizacoes =  response.getJSONArray("localizacoes");
@@ -20,7 +20,10 @@ public class LocationPointsService {
                 JSONObject localizacao = localizacoes.getJSONObject(i);
                 localizacoesList[i] = new LatLng(localizacao.getDouble("latitude"), localizacao.getDouble("longitude") );
             }
-
+            if(localizacoes.length() < 1)
+            {
+               return null;
+            }
            return localizacoesList;
         } catch (JSONException e) {
             e.printStackTrace();

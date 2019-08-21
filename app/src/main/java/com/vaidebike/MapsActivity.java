@@ -76,6 +76,7 @@ public class MapsActivity extends FragmentActivity implements
     private boolean requestingLocationUpdates = false;
     private MapsActivity activity = this;
     private FusedLocationProviderClient fusedLocationClient;
+    private int numberLocations = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +222,14 @@ public class MapsActivity extends FragmentActivity implements
         {
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             inicializeMarkers(location);
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+            CameraUpdate cu;
+
+            if(numberLocations > 0)
+                cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+
+            else
+                cu = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+
             mMap.moveCamera(cu);
             firstTime = false;
         }
@@ -287,7 +295,9 @@ public class MapsActivity extends FragmentActivity implements
         Bitmap smallmarker_vai_de_bike = Bitmap.createScaledBitmap(b2, width2, height2, false);
         BitmapDescriptor bitmap_vai_de_bike = BitmapDescriptorFactory.fromBitmap(smallmarker_vai_de_bike);
 
+        if(LocationPointsService.getPlaces() != null)
         for (LatLng point : LocationPointsService.getPlaces()) {
+            numberLocations++;
             points.add(point);
             Marker place = mMap.addMarker(new MarkerOptions()
                     .position(point)
