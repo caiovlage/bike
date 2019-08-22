@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.vaidebike.service.PhoneService;
 
 public class HelpActivity extends AppCompatActivity {
 
@@ -37,7 +38,7 @@ public class HelpActivity extends AppCompatActivity {
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String telefone = "2124430591";
+                String telefone = PhoneService.getPhone();
                 Uri uri = Uri.parse("tel:"+telefone);
                 Intent intent = new Intent(Intent.ACTION_DIAL,uri);
                 startActivity(intent);
